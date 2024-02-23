@@ -1,35 +1,64 @@
+const axios = require('axios');
 const WebSocket = require('ws');
+require('dotenv').config();
 
-// Replace 'your-jwt-token' with the actual JWT token obtained during authentication
-const jwtToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIiLCJyb2xlIjoidXNlciIsImlhdCI6MTcwODY3MTQ2NywiZXhwIjoxNzA4Njc1MDY3fQ.bt34mQ0NqX70BJU3sAdfD7svy5iKUjKU4-XoSWiutHc';
+let jwtToken = '';
+let data = JSON.stringify({
+  "username": "user",
+  "password": "yourSecretKey"
+});
 
-// WebSocket connection URL (replace with your actual WebSocket server URL)
-const wsUrl = 'ws://localhost:3050';
-
-// Construct WebSocket headers with the JWT token
-const headers = {
-  Authorization: `Bearer ${jwtToken}`,
+let config = {
+  method: 'put',
+  maxBodyLength: Infinity,
+  url: 'http://localhost:3050/login',
+  headers: { 
+    'Content-Type': 'application/json', 
+  },
+  data : data
 };
 
-// Establish WebSocket connection with headers
-const ws = new WebSocket(wsUrl, { headers });
-
-// WebSocket event handlers
-ws.on('open', () => {
-  console.log('WebSocket connection opened: 1234555');
-  
-  // You can send messages, perform actions, etc. once the connection is open
-  ws.send('Hello, WebSocket Server!');
+axios.request(config)
+.then((response) => {
+  console.log(JSON.stringify(response.data));
+  jwtToken = response.data.token;
+  connectws(jwtToken);
+})
+.catch((error) => {
+  console.log(error);
 });
 
-ws.on('message', (message) => {
-  console.log(`Received message from WebSocket server: ${message}`);
-});
 
-ws.on('close', (code, reason) => {
-  console.log(`WebSocket connection closed: ${code} - ${reason}`);
-});
+const connectws = (jwtToken) => {
 
-ws.on('error', (error) => {
-  console.error(`WebSocket error: ${error.message}`);
-});
+    const PORT = process.env.PORT;
+    // WebSocket connection URL (replace with your actual WebSocket server URL)
+    const wsUrl = `ws://localhost:${PORT}`;
+
+    // Construct WebSocket headers with the JWT token
+    const headers = {
+        Authorization: `Bearer ${jwtToken}`,
+    };
+    // Establish WebSocket connection with headers
+    const ws = new WebSocket(wsUrl, { headers });
+
+    // WebSocket event handlers
+    ws.on('open', () => {
+    console.log('WebSocket connection opened: 1234555');
+    
+    // You can send messages, perform actions, etc. once the connection is open
+    ws.send('Hello, WebSocket Server!');
+    });
+
+    ws.on('message', (message) => {
+    console.log(`Received message from WebSocket server: ${message}`);
+    });
+
+    ws.on('close', (code, reason) => {
+    console.log(`WebSocket connection closed: ${code} - ${reason}`);
+    });
+
+    ws.on('error', (error) => {
+    console.error(`WebSocket error: ${error.message}`);
+    });
+}

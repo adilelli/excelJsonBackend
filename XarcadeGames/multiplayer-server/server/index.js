@@ -24,7 +24,6 @@ wss.on('connection', (ws, req) => {
   wsController.handleWebSocketConnection(ws, req, secretKey); // Replace with your actual secret key
 });
 
-// WebSocket connection initialization and authorization
 // wss.on('connection', (ws, req) => {
 //   // Extract JWT from the headers of the WebSocket handshake request
 //   const authHeader = req.headers.authorization;
