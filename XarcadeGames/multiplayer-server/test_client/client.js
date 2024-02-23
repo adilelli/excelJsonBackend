@@ -1,7 +1,7 @@
 const WebSocket = require('ws');
 
 // Replace 'your-jwt-token' with the actual JWT token obtained during authentication
-const jwtToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIiLCJyb2xlIjoidXNlciIsImlhdCI6MTcwODU2ODA4NywiZXhwIjoxNzA4NTcxNjg3fQ.OVz0KddfulYhsgugreodYWnpeYXm8n7kYeQLmz6MJRA';
+const jwtToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIiLCJyb2xlIjoidXNlciIsImlhdCI6MTcwODY3MTQ2NywiZXhwIjoxNzA4Njc1MDY3fQ.bt34mQ0NqX70BJU3sAdfD7svy5iKUjKU4-XoSWiutHc';
 
 // WebSocket connection URL (replace with your actual WebSocket server URL)
 const wsUrl = 'ws://localhost:3050';
