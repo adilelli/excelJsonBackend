@@ -31,7 +31,7 @@ axios.request(config)
 
 const connectws = (jwtToken) => {
 
-    const PORT = process.env.PORT;
+    const PORT = '3050';
     // WebSocket connection URL (replace with your actual WebSocket server URL)
     const wsUrl = `ws://localhost:${PORT}`;
 
