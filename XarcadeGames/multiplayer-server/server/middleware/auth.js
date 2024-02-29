@@ -19,7 +19,7 @@ const existingRoom = async (req, res) => {
         const secretKey = process.env.SECRET_KEY; // Replace with a strong secret key in production
         const expiration = process.env.JWT_EXPIRATION;
 
-        // Perform authentication logic (e.g., verify username and password)
+        // Perform authentication logic 
         // If authentication succeeds, create a JWT
         const token = jwt.sign({ username, role: 'user', room }, secretKey, { expiresIn: expiration });
 
@@ -41,8 +41,7 @@ const newRoom = async (req, res) => {
         const secretKey = process.env.SECRET_KEY; // Replace with a strong secret key in production
         const expiration = process.env.JWT_EXPIRATION;
 
-        // Perform authentication logic (e.g., verify username and password)
-        // If authentication succeeds, create a JWT
+        // Perform authentication logic 
         const room = generateRandomId(8);
 
         console.log(room);

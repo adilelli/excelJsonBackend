@@ -1,7 +1,7 @@
 const WebSocket = require('ws');
 const jwt = require('jsonwebtoken');
 const url = require('url');
-const clients = new Set();
+// const clients = new Set();
 const rooms = new Map(); // Map to store clients for each room
 
 const verifyToken = (token, secretKey, callback) => {
@@ -10,19 +10,20 @@ const verifyToken = (token, secretKey, callback) => {
         // JWT verification failed
         callback(err, null);
         } else {
+        console.log(`WebSocket connection authorized`);
         // JWT verification succeeded
         callback(null, decoded);
         }
     });
 };
 
-const handleAuthorizedConnection = (ws, decoded) => {
+const handleAuthorizedConnection = (ws, decoded, wss) => {
     const { username, role, room } = decoded;
-    clients.add(ws);
+    // clients.add(ws);
 
     // For simplicity, allow all authenticated users
     if (role === 'user') {
-        console.log(`WebSocket connection authorized for user: ${username}`);
+        console.log(`WebSocket connection authorized for user: ${username} in room ${room}`);
 
         // Add the client to the room-specific set
         if (!rooms.has(room)) {
@@ -54,6 +55,7 @@ const handleAuthorizedConnection = (ws, decoded) => {
             rooms.get(room).forEach((client) => {
                 if (client !== ws && client.readyState === WebSocket.OPEN) {
                     const responseMessage = `${room} -> ${username}: ${message}`;
+
                     client.send(responseMessage);
                 }
             });
@@ -76,6 +78,7 @@ const handleAuthorizedConnection = (ws, decoded) => {
     } else {
         // Role not authorized, reject WebSocket connection
         ws.terminate();
+        console.log(`WebSocket connection rejected for user ${username} with role ${role}`);
     }
 };
 
