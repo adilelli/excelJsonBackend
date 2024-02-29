@@ -24,7 +24,7 @@ const existingRoom = async (req, res) => {
         const token = jwt.sign({ username, role: 'user', room }, secretKey, { expiresIn: expiration });
 
         // Send the JWT token to the client
-        res.json({ token });
+        res.json({ token, username, room });
 
     }catch(error){
 
@@ -49,7 +49,7 @@ const newRoom = async (req, res) => {
         const token = jwt.sign({ username, role: 'user', room }, secretKey, { expiresIn: expiration });
 
         // Send the JWT token to the client
-        res.json({ token });
+        res.json({ token, username, room  });
 
     }catch(error){
         

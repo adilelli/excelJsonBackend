@@ -55,7 +55,7 @@ const handleAuthorizedConnection = (ws, decoded, wss) => {
             rooms.get(room).forEach((client) => {
                 if (client !== ws && client.readyState === WebSocket.OPEN) {
                     const responseMessage = `${room} -> ${username}: ${message}`;
-
+                    console.log(responseMessage);
                     client.send(responseMessage);
                 }
             });
